@@ -67,7 +67,14 @@ export interface AzureADProfile extends Record<string, any> {
  * AZURE_AD_TENANT_ID=<copy the tenant id here>
  * ```
  *
- * That will default the tenant to use the `common` authorization endpoint. [For more details see here](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-protocols#endpoints).
+ * AZURE_AD_TENANT_ID can either be the tenant id, or explicitly set it to point to the **common** endpoint. (**organizations** and **consumers** are the other two options, **common** just allows both)
+ *
+ * ```
+ * AZURE_AD_TENANT_ID=common
+ * ``` 
+ *
+ * Which will default the tenant to use the `common` authorization endpoint. [For more details see here](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-protocols#endpoints).
+ * However, if the tenant id is set to a guid, then the issuer endpoint will be used for authorization. e.g. https://login.microsoftonline.com/<issuer>/oauth2/v2.0/authorize
  *
  * :::note
  * Azure AD returns the profile picture in an ArrayBuffer, instead of just a URL to the image, so our provider converts it to a base64 encoded image string and returns that instead. See: https://docs.microsoft.com/en-us/graph/api/profilephoto-get?view=graph-rest-1.0#examples. The default image size is 48x48 to avoid [running out of space](https://next-auth.js.org/faq#:~:text=What%20are%20the%20disadvantages%20of%20JSON%20Web%20Tokens%3F) in case the session is saved as a JWT.
